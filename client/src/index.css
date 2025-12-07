@@ -1,6 +1,6 @@
 @import "tailwindcss";
 @plugin "daisyui" {
-  themes: light --default, dark, cupcake;
+  themes: travelguru --default;
 }
 
 /* Design System Variables */
@@ -16,6 +16,39 @@
   --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* Custom DaisyUI Theme - TravelGuru (White & Dark Blue #070738) */
+[data-theme="travelguru"] {
+  --p: 240 78% 12%; /* Primary: Dark Blue #070738 */
+  --pf: 240 78% 10%; /* Primary Focus: Darker blue for hover */
+  --pc: 0 0% 100%; /* Primary Content: White text on primary */
+  
+  --s: 240 78% 20%; /* Secondary: Lighter dark blue */
+  --sf: 240 78% 18%; /* Secondary Focus */
+  --sc: 0 0% 100%; /* Secondary Content: White text */
+  
+  --a: 240 78% 25%; /* Accent: Medium dark blue */
+  --af: 240 78% 23%; /* Accent Focus */
+  --ac: 0 0% 100%; /* Accent Content: White text */
+  
+  --n: 240 10% 50%; /* Neutral: Gray */
+  --nf: 240 10% 45%; /* Neutral Focus */
+  --nc: 0 0% 100%; /* Neutral Content */
+  
+  --b1: 0 0% 100%; /* Base 1: White background */
+  --b2: 240 10% 98%; /* Base 2: Very light gray */
+  --b3: 240 10% 95%; /* Base 3: Light gray */
+  --bc: 240 78% 12%; /* Base Content: Dark blue text */
+  
+  --in: 210 100% 50%; /* Info */
+  --inc: 0 0% 100%;
+  --su: 142 71% 45%; /* Success */
+  --suc: 0 0% 100%;
+  --wa: 38 92% 50%; /* Warning */
+  --wac: 0 0% 100%;
+  --er: 0 84% 60%; /* Error */
+  --erc: 0 0% 100%;
+}
+
 /* Global Styles */
 * {
   margin: 0;
@@ -28,7 +61,7 @@ html {
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+  font-family: "Lato", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
