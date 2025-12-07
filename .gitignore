@@ -1,0 +1,10 @@
+# Server folder (not pushing to GitHub)
+server/
+
+# Cursor IDE files
+.cursor/
+
+# OS files
+.DS_Store
+Thumbs.db
+
