@@ -4,6 +4,7 @@ import { getBookings } from "../services/api";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { format } from "date-fns";
 import { Link } from "react-router-dom";
+import { formatPrice } from "../utils/priceFormatter";
 
 const MyBookings = () => {
   const { user } = useAuth();
@@ -63,7 +64,7 @@ const MyBookings = () => {
                   <div className="flex justify-between items-center py-2 border-b border-base-300/50">
                     <span className="text-sm font-semibold text-base-content/70">Price:</span>
                     <span className="text-lg font-bold text-primary">
-                      ৳{booking.pricePerDay}<span className="text-sm font-normal text-base-content/70">/day</span>
+                      ৳{formatPrice(booking.pricePerDay)}<span className="text-sm font-normal text-base-content/70">/day</span>
                     </span>
                   </div>
                   {booking.vehicle && (

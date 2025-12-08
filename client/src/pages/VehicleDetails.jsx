@@ -7,6 +7,7 @@ import { getVehicleById, createBooking } from "../services/api";
 import LoadingSpinner from "../components/LoadingSpinner";
 import toast from "react-hot-toast";
 import { useState } from "react";
+import { formatPrice } from "../utils/priceFormatter";
 
 const VehicleDetails = () => {
   const { id } = useParams();
@@ -106,7 +107,7 @@ const VehicleDetails = () => {
 
             <div className="card bg-primary/5 border border-primary/20 p-6">
               <h2 className="text-3xl font-bold text-primary mb-1">
-                ৳{vehicle.pricePerDay} <span className="text-lg font-normal text-base-content/70">per day</span>
+                ৳{formatPrice(vehicle.pricePerDay)} <span className="text-lg font-normal text-base-content/70">per day</span>
               </h2>
             </div>
 

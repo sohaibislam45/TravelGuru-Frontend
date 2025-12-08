@@ -5,6 +5,7 @@ import { getVehicles, deleteVehicle } from "../services/api";
 import LoadingSpinner from "../components/LoadingSpinner";
 import toast from "react-hot-toast";
 import { useState } from "react";
+import { formatPrice } from "../utils/priceFormatter";
 
 const MyVehicles = () => {
   const { user } = useAuth();
@@ -80,13 +81,14 @@ const MyVehicles = () => {
                 />
               </figure>
               <div className="card-body">
-                <h2 className="card-title text-xl">{vehicle.vehicleName}</h2>
+                <h2 className="card-title text-xl mb-0">{vehicle.vehicleName}</h2>
+                <p className="text-base font-semibold text-base-content/60 mb-2">Owner: {vehicle.owner || "N/A"}</p>
                 <p className="text-base-content/70 line-clamp-2">
                   {vehicle.description?.substring(0, 100)}...
                 </p>
                 <div className="flex justify-between items-center mt-4 pt-4 border-t border-base-300/50">
                   <span className="text-2xl font-bold text-primary">
-                    ৳{vehicle.pricePerDay}<span className="text-sm font-normal text-base-content/70">/day</span>
+                    ৳{formatPrice(vehicle.pricePerDay)}<span className="text-sm font-normal text-base-content/70">/day</span>
                   </span>
                   <span className="badge badge-secondary badge-lg">{vehicle.category}</span>
                 </div>

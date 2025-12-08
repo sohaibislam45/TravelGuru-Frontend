@@ -1,15 +1,32 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { getVehicles } from "../services/api";
 import LoadingSpinner from "../components/LoadingSpinner";
+import { formatPrice } from "../utils/priceFormatter";
 
 const AllVehicles = () => {
-  const [categoryFilter, setCategoryFilter] = useState("");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const categoryFromUrl = searchParams.get("category") || "";
+  
+  const [categoryFilter, setCategoryFilter] = useState(categoryFromUrl);
   const [locationFilter, setLocationFilter] = useState("");
   const [sortBy, setSortBy] = useState("");
   const [sortOrder, setSortOrder] = useState("asc");
+
+  // Scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
+
+  // Update category filter when URL parameter changes
+  useEffect(() => {
+    const categoryParam = searchParams.get("category") || "";
+    setCategoryFilter(categoryParam);
+    // Scroll to top when navigating from category link
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [searchParams]);
 
   const { data: vehicles, isLoading } = useQuery({
     queryKey: ["vehicles", categoryFilter, locationFilter, sortBy, sortOrder],
@@ -121,21 +138,22 @@ const AllVehicles = () => {
               transition={{ duration: 0.5, delay: index * 0.05 }}
             >
               <div className="card bg-base-100 shadow-lg h-full border border-base-300/50">
-                <figure className="overflow-hidden">
+                <figure className="overflow-hidden h-64 w-full">
                   <img
                     src={vehicle.coverImage || "https://via.placeholder.com/400x300"}
                     alt={vehicle.vehicleName}
-                    className="w-full h-64 object-cover transition-transform duration-300 hover:scale-105"
+                    className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
                   />
                 </figure>
                 <div className="card-body">
-                  <h2 className="card-title text-xl">{vehicle.vehicleName}</h2>
+                  <h2 className="card-title text-xl mb-0">{vehicle.vehicleName}</h2>
+                  <p className="text-base font-semibold text-base-content/60 mb-2">Owner: {vehicle.owner || "N/A"}</p>
                   <p className="text-base-content/70 line-clamp-2">
                     {vehicle.description?.substring(0, 120)}...
                   </p>
                   <div className="flex justify-between items-center mt-4 pt-4 border-t border-base-300/50">
                     <span className="text-2xl font-bold text-primary">
-                      ৳{vehicle.pricePerDay}<span className="text-sm font-normal text-base-content/70">/day</span>
+                      ৳{formatPrice(vehicle.pricePerDay)}<span className="text-sm font-normal text-base-content/70">/day</span>
                     </span>
                     <div className="flex flex-col items-end gap-2">
                       <span className="badge badge-secondary badge-lg">{vehicle.category}</span>

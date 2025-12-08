@@ -6,6 +6,7 @@ import { useSpring, animated } from "react-spring";
 import { getLatestVehicles, getTopRatedVehicles, getVehicles } from "../services/api";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { FaCar, FaBolt, FaShuttleVan, FaTaxi, FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { formatPrice } from "../utils/priceFormatter";
 
 const Home = () => {
   const { data: latestVehicles, isLoading: loadingLatest, error: errorLatest } = useQuery({
@@ -76,10 +77,10 @@ const Home = () => {
   });
 
   const categories = [
-    { name: "SUVs", icon: <FaCar className="w-12 h-12" />, description: "Spacious and powerful" },
-    { name: "Electric", icon: <FaBolt className="w-12 h-12" />, description: "Eco-friendly travel" },
-    { name: "Vans", icon: <FaShuttleVan className="w-12 h-12" />, description: "Perfect for groups" },
-    { name: "Sedans", icon: <FaTaxi className="w-12 h-12" />, description: "Comfortable and efficient" },
+    { name: "SUVs", categoryValue: "SUV", icon: <FaCar className="w-12 h-12" />, description: "Spacious and powerful" },
+    { name: "Electric", categoryValue: "Electric", icon: <FaBolt className="w-12 h-12" />, description: "Eco-friendly travel" },
+    { name: "Vans", categoryValue: "Van", icon: <FaShuttleVan className="w-12 h-12" />, description: "Perfect for groups" },
+    { name: "Sedans", categoryValue: "Sedan", icon: <FaTaxi className="w-12 h-12" />, description: "Comfortable and efficient" },
   ];
 
   return (
@@ -306,11 +307,12 @@ const Home = () => {
                       />
                     </figure>
                     <div className="card-body">
-                      <h2 className="card-title text-xl">{vehicle.vehicleName}</h2>
-                      <p className="text-base-content/70 line-clamp-2">{vehicle.description?.substring(0, 100)}...</p>
+                      <h2 className="card-title text-xl mb-0">{vehicle.vehicleName}</h2>
+                      <p className="text-base font-semibold text-base-content/60 mb-2">Owner: {vehicle.owner || "N/A"}</p>
+                      <p className="text-base-content/70 line-clamp-2">{vehicle.description || "No description available"}</p>
                       <div className="flex justify-between items-center mt-4 pt-4 border-t border-base-300/50">
                         <span className="text-2xl font-bold text-primary">
-                          ৳{vehicle.pricePerDay}<span className="text-sm font-normal text-base-content/70">/day</span>
+                          ৳{formatPrice(vehicle.pricePerDay)}<span className="text-sm font-normal text-base-content/70">/day</span>
                         </span>
                         <span className="badge badge-secondary badge-lg">{vehicle.category}</span>
                       </div>
@@ -342,29 +344,34 @@ const Home = () => {
       <section className="py-20 px-4 bg-base-200/50">
         <div className="container mx-auto">
           <animated.div style={fadeIn}>
-            <div className="text-center mb-16">
-              <h2 className="text-4xl md:text-5xl font-bold mb-4">Top Categories</h2>
-              <p className="text-lg text-base-content/70 max-w-2xl mx-auto">
+            <div className="mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold mb-4 text-center">Top Categories</h2>
+              <p className="text-lg text-base-content/70 max-w-2xl mx-auto text-center">
                 Explore our diverse range of vehicle categories
               </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {categories.map((category, index) => (
-                <motion.div
+                <Link
                   key={category.name}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  whileHover={{ scale: 1.03, y: -4 }}
-                  className="card bg-base-100 shadow-lg text-center p-8 border border-base-300/50"
+                  to={`/allVehicles?category=${encodeURIComponent(category.categoryValue)}`}
+                  className="block"
                 >
-                  <div className="flex justify-center mb-6 text-primary">
-                    {category.icon}
-                  </div>
-                  <h3 className="text-2xl font-bold mb-3">{category.name}</h3>
-                  <p className="text-base-content/70">{category.description}</p>
-                </motion.div>
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    whileHover={{ scale: 1.03, y: -4 }}
+                    className="card bg-base-100 shadow-lg text-center p-8 border border-base-300/50 cursor-pointer"
+                  >
+                    <div className="flex justify-center mb-6 text-primary">
+                      {category.icon}
+                    </div>
+                    <h3 className="text-2xl font-bold mb-3">{category.name}</h3>
+                    <p className="text-base-content/70">{category.description}</p>
+                  </motion.div>
+                </Link>
               ))}
             </div>
           </animated.div>
@@ -408,10 +415,11 @@ const Home = () => {
                         />
                       </figure>
                       <div className="card-body">
-                        <h2 className="card-title text-xl">{vehicle.vehicleName}</h2>
+                        <h2 className="card-title text-xl mb-1">{vehicle.vehicleName}</h2>
+                        <p className="text-base font-semibold text-base-content/60 mb-2">Owner: {vehicle.owner || "N/A"}</p>
                         <div className="flex justify-between items-center mt-4 pt-4 border-t border-base-300/50">
                           <span className="text-2xl font-bold text-primary">
-                            ৳{vehicle.pricePerDay}<span className="text-sm font-normal text-base-content/70">/day</span>
+                            ৳{formatPrice(vehicle.pricePerDay)}<span className="text-sm font-normal text-base-content/70">/day</span>
                           </span>
                           <span className="badge badge-accent badge-lg">Top Rated</span>
                         </div>
