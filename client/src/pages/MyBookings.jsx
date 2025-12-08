@@ -45,7 +45,7 @@ const MyBookings = () => {
                   <img
                     src={booking.vehicle.coverImage}
                     alt={booking.vehicleName}
-                    className="w-full h-56 object-cover transition-transform duration-300 hover:scale-105"
+                    className="w-full h-64 object-cover transition-transform duration-300 hover:scale-105"
                   />
                 </figure>
               )}
@@ -63,7 +63,7 @@ const MyBookings = () => {
                   <div className="flex justify-between items-center py-2 border-b border-base-300/50">
                     <span className="text-sm font-semibold text-base-content/70">Price:</span>
                     <span className="text-lg font-bold text-primary">
-                      ${booking.pricePerDay}<span className="text-sm font-normal text-base-content/70">/day</span>
+                      ৳{booking.pricePerDay}<span className="text-sm font-normal text-base-content/70">/day</span>
                     </span>
                   </div>
                   {booking.vehicle && (

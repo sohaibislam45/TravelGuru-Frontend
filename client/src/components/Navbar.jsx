@@ -19,7 +19,9 @@ const Navbar = () => {
   const pathname = location.pathname;
 
   return (
-    <div className="navbar bg-base-100 shadow-sm sticky top-0 z-50">
+    <div 
+      className="navbar sticky top-0 z-50 backdrop-blur-md bg-white/80 border-b border-gray-200/50 shadow-sm"
+    >
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -38,14 +40,14 @@ const Navbar = () => {
               />
             </svg>
           </div>
-          <ul
+            <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
+            className="menu menu-sm dropdown-content bg-white/95 backdrop-blur-md rounded-box z-[1] mt-3 w-52 p-2 shadow-lg border border-gray-200"
           >
             <li>
               <Link
                 to="/"
-                className={`text-blue-900 hover:text-blue-700 hover:bg-base-200 transition-colors ${pathname === "/" ? "font-semibold" : ""}`}
+                className={`text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-colors ${pathname === "/" ? "font-semibold text-blue-600" : ""}`}
               >
                 Home
               </Link>
@@ -53,7 +55,7 @@ const Navbar = () => {
             <li>
               <Link
                 to="/allVehicles"
-                className={`text-blue-900 hover:text-blue-700 hover:bg-base-200 transition-colors ${pathname === "/allVehicles" ? "font-semibold" : ""}`}
+                className={`text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-colors ${pathname === "/allVehicles" ? "font-semibold text-blue-600" : ""}`}
               >
                 All Vehicles
               </Link>
@@ -61,7 +63,7 @@ const Navbar = () => {
             <li>
               <Link
                 to="/addVehicle"
-                className={`text-blue-900 hover:text-blue-700 hover:bg-base-200 transition-colors ${pathname === "/addVehicle" ? "font-semibold" : ""}`}
+                className={`text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-colors ${pathname === "/addVehicle" ? "font-semibold text-blue-600" : ""}`}
               >
                 Add Vehicle
               </Link>
@@ -69,7 +71,7 @@ const Navbar = () => {
             <li>
               <Link
                 to="/myVehicles"
-                className={`text-blue-900 hover:text-blue-700 hover:bg-base-200 transition-colors ${pathname === "/myVehicles" ? "font-semibold" : ""}`}
+                className={`text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-colors ${pathname === "/myVehicles" ? "font-semibold text-blue-600" : ""}`}
               >
                 My Vehicles
               </Link>
@@ -77,7 +79,7 @@ const Navbar = () => {
             <li>
               <Link
                 to="/myBookings"
-                className={`text-blue-900 hover:text-blue-700 hover:bg-base-200 transition-colors ${pathname === "/myBookings" ? "font-semibold" : ""}`}
+                className={`text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-colors ${pathname === "/myBookings" ? "font-semibold text-blue-600" : ""}`}
               >
                 My Bookings
               </Link>
@@ -85,17 +87,17 @@ const Navbar = () => {
           </ul>
         </div>
         <Link to="/" className="btn btn-ghost text-xl hover:bg-transparent">
-          <FaCar className="w-6 h-6 mr-2 text-primary" />
-          <span>TravelGuru</span>
+          <FaCar className="w-6 h-6 mr-2" style={{ color: "#070738" }} />
+          <span style={{ color: "#070738" }}>TravelGuru</span>
         </Link>
       </div>
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1 gap-2">
+          <ul className="menu menu-horizontal px-1 gap-2">
           <li>
             <Link
               to="/"
-              className={`text-blue-900 hover:text-blue-700 hover:bg-base-200 transition-colors ${
-                pathname === "/" ? "font-semibold" : ""
+              className={`text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-colors ${
+                pathname === "/" ? "font-semibold text-blue-600" : ""
               }`}
             >
               Home
@@ -104,8 +106,8 @@ const Navbar = () => {
           <li>
             <Link
               to="/allVehicles"
-              className={`text-blue-900 hover:text-blue-700 hover:bg-base-200 transition-colors ${
-                pathname === "/allVehicles" ? "font-semibold" : ""
+              className={`text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-colors ${
+                pathname === "/allVehicles" ? "font-semibold text-blue-600" : ""
               }`}
             >
               All Vehicles
@@ -114,8 +116,8 @@ const Navbar = () => {
           <li>
             <Link
               to="/addVehicle"
-              className={`text-blue-900 hover:text-blue-700 hover:bg-base-200 transition-colors ${
-                pathname === "/addVehicle" ? "font-semibold" : ""
+              className={`text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-colors ${
+                pathname === "/addVehicle" ? "font-semibold text-blue-600" : ""
               }`}
             >
               Add Vehicle
@@ -124,8 +126,8 @@ const Navbar = () => {
           <li>
             <Link
               to="/myVehicles"
-              className={`text-blue-900 hover:text-blue-700 hover:bg-base-200 transition-colors ${
-                pathname === "/myVehicles" ? "font-semibold" : ""
+              className={`text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-colors ${
+                pathname === "/myVehicles" ? "font-semibold text-blue-600" : ""
               }`}
             >
               My Vehicles
@@ -134,8 +136,8 @@ const Navbar = () => {
           <li>
             <Link
               to="/myBookings"
-              className={`text-blue-900 hover:text-blue-700 hover:bg-base-200 transition-colors ${
-                pathname === "/myBookings" ? "font-semibold" : ""
+              className={`text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-colors ${
+                pathname === "/myBookings" ? "font-semibold text-blue-600" : ""
               }`}
             >
               My Bookings
@@ -159,16 +161,16 @@ const Navbar = () => {
                 </div>
               </div>
             </div>
-            <button onClick={handleLogout} className="btn btn-ghost">
+            <button onClick={handleLogout} className="btn btn-ghost text-gray-700 hover:bg-gray-100">
               LogOut
             </button>
           </div>
         ) : (
           <div className="flex gap-2">
-            <Link to="/login" className="btn btn-ghost">
+            <Link to="/login" className="btn btn-ghost text-gray-700 hover:bg-gray-100">
               Login
             </Link>
-            <Link to="/register" className="btn btn-primary">
+            <Link to="/register" className="btn hover:opacity-90 transition-all" style={{ backgroundColor: "#070738", color: "#ffffff" }}>
               Register
             </Link>
           </div>

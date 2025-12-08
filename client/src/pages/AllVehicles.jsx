@@ -135,7 +135,7 @@ const AllVehicles = () => {
                   </p>
                   <div className="flex justify-between items-center mt-4 pt-4 border-t border-base-300/50">
                     <span className="text-2xl font-bold text-primary">
-                      ${vehicle.pricePerDay}<span className="text-sm font-normal text-base-content/70">/day</span>
+                      ৳{vehicle.pricePerDay}<span className="text-sm font-normal text-base-content/70">/day</span>
                     </span>
                     <div className="flex flex-col items-end gap-2">
                       <span className="badge badge-secondary badge-lg">{vehicle.category}</span>

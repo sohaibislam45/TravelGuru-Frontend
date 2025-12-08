@@ -76,7 +76,7 @@ const MyVehicles = () => {
                 <img
                   src={vehicle.coverImage || "https://via.placeholder.com/400x300"}
                   alt={vehicle.vehicleName}
-                  className="w-full h-56 object-cover transition-transform duration-300 hover:scale-105"
+                  className="w-full h-64 object-cover transition-transform duration-300 hover:scale-105"
                 />
               </figure>
               <div className="card-body">
@@ -86,7 +86,7 @@ const MyVehicles = () => {
                 </p>
                 <div className="flex justify-between items-center mt-4 pt-4 border-t border-base-300/50">
                   <span className="text-2xl font-bold text-primary">
-                    ${vehicle.pricePerDay}<span className="text-sm font-normal text-base-content/70">/day</span>
+                    ৳{vehicle.pricePerDay}<span className="text-sm font-normal text-base-content/70">/day</span>
                   </span>
                   <span className="badge badge-secondary badge-lg">{vehicle.category}</span>
                 </div>

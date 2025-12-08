@@ -120,7 +120,7 @@ const AddVehicle = () => {
 
           <div className="form-control">
             <label className="label">
-              <span className="label-text">Price Per Day ($) *</span>
+              <span className="label-text">Price Per Day (৳) *</span>
             </label>
             <input
               type="number"
