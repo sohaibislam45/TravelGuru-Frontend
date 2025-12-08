@@ -1,6 +1,6 @@
 @import "tailwindcss";
 @plugin "daisyui" {
-  themes: travelguru --default;
+  themes: travelguru --default, dark;
 }
 
 /* Design System Variables */
@@ -49,6 +49,39 @@
   --erc: 0 0% 100%;
 }
 
+/* Custom DaisyUI Theme - Dark (Black Background) */
+[data-theme="dark"] {
+  --p: 240 78% 50%; /* Primary: Bright blue for visibility on black */
+  --pf: 240 78% 45%; /* Primary Focus: Slightly darker blue for hover */
+  --pc: 0 0% 100%; /* Primary Content: White text on primary */
+  
+  --s: 240 30% 40%; /* Secondary: Medium gray-blue */
+  --sf: 240 30% 35%; /* Secondary Focus */
+  --sc: 0 0% 100%; /* Secondary Content: White text */
+  
+  --a: 240 50% 45%; /* Accent: Medium blue */
+  --af: 240 50% 40%; /* Accent Focus */
+  --ac: 0 0% 100%; /* Accent Content: White text */
+  
+  --n: 240 10% 30%; /* Neutral: Dark gray */
+  --nf: 240 10% 25%; /* Neutral Focus */
+  --nc: 0 0% 95%; /* Neutral Content: Light text */
+  
+  --b1: 0 0% 0%; /* Base 1: Black background */
+  --b2: 0 0% 5%; /* Base 2: Very dark gray */
+  --b3: 0 0% 10%; /* Base 3: Dark gray */
+  --bc: 0 0% 95%; /* Base Content: Light text for contrast */
+  
+  --in: 210 100% 60%; /* Info: Bright blue */
+  --inc: 0 0% 100%;
+  --su: 142 71% 55%; /* Success: Bright green */
+  --suc: 0 0% 100%;
+  --wa: 38 92% 60%; /* Warning: Bright yellow/orange */
+  --wac: 0 0% 0%;
+  --er: 0 84% 65%; /* Error: Bright red */
+  --erc: 0 0% 100%;
+}
+
 /* Global Styles */
 * {
   margin: 0;
@@ -58,6 +91,7 @@
 
 html {
   scroll-behavior: smooth;
+  background-color: hsl(var(--b1));
 }
 
 body {
@@ -68,6 +102,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.6;
   color: hsl(var(--bc));
+  background-color: hsl(var(--b1));
 }
 
 /* Professional Typography Hierarchy */

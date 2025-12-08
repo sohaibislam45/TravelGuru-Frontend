@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useSpring, animated } from "react-spring";
 import { getLatestVehicles, getTopRatedVehicles, getVehicles } from "../services/api";
 import LoadingSpinner from "../components/LoadingSpinner";
-import { FaCar, FaBolt, FaShuttleVan, FaTaxi, FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { FaCar, FaBolt, FaShuttleVan, FaTaxi, FaChevronLeft, FaChevronRight, FaStar, FaUsers, FaCheckCircle } from "react-icons/fa";
 import { formatPrice } from "../utils/priceFormatter";
 
 const Home = () => {
@@ -35,23 +35,41 @@ const Home = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [direction, setDirection] = useState(0); // 1 for next, -1 for previous
+  const [slideProgress, setSlideProgress] = useState(0);
 
-  // Auto-play slider
+  // Auto-play slider with progress tracking
   useEffect(() => {
     if (!isAutoPlaying || sliderImages.length === 0) return;
 
-    const interval = setInterval(() => {
+    setSlideProgress(0);
+    const duration = 5000;
+    const interval = 100;
+    const increment = (100 / duration) * interval;
+
+    const progressInterval = setInterval(() => {
+      setSlideProgress((prev) => {
+        if (prev >= 100) return 0;
+        return prev + increment;
+      });
+    }, interval);
+
+    const slideInterval = setInterval(() => {
       setDirection(1);
       setCurrentSlide((prev) => (prev + 1) % sliderImages.length);
-    }, 5000);
+      setSlideProgress(0);
+    }, duration);
 
-    return () => clearInterval(interval);
-  }, [isAutoPlaying, sliderImages.length]);
+    return () => {
+      clearInterval(progressInterval);
+      clearInterval(slideInterval);
+    };
+  }, [isAutoPlaying, sliderImages.length, currentSlide]);
 
   // Navigation functions
   const goToNext = () => {
     setDirection(1);
     setCurrentSlide((prev) => (prev + 1) % sliderImages.length);
+    setSlideProgress(0);
     setIsAutoPlaying(false);
     setTimeout(() => setIsAutoPlaying(true), 10000);
   };
@@ -59,6 +77,7 @@ const Home = () => {
   const goToPrevious = () => {
     setDirection(-1);
     setCurrentSlide((prev) => (prev - 1 + sliderImages.length) % sliderImages.length);
+    setSlideProgress(0);
     setIsAutoPlaying(false);
     setTimeout(() => setIsAutoPlaying(true), 10000);
   };
@@ -66,6 +85,7 @@ const Home = () => {
   const goToSlide = (index) => {
     setDirection(index > currentSlide ? 1 : -1);
     setCurrentSlide(index);
+    setSlideProgress(0);
     setIsAutoPlaying(false);
     setTimeout(() => setIsAutoPlaying(true), 10000);
   };
@@ -83,21 +103,148 @@ const Home = () => {
     { name: "Sedans", categoryValue: "Sedan", icon: <FaTaxi className="w-12 h-12" />, description: "Comfortable and efficient" },
   ];
 
+  // Detect current theme
+  const [theme, setTheme] = useState(() => {
+    const savedTheme = localStorage.getItem("theme");
+    return savedTheme === "travelguru" || !savedTheme ? "light" : savedTheme;
+  });
+
+  useEffect(() => {
+    const handleThemeChange = () => {
+      const currentTheme = document.documentElement.getAttribute("data-theme");
+      setTheme(currentTheme === "travelguru" ? "light" : currentTheme || "light");
+    };
+
+    // Check theme on mount
+    handleThemeChange();
+
+    // Watch for theme changes
+    const observer = new MutationObserver(handleThemeChange);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme"],
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <div>
-      {/* Hero Banner Section - Modern Split Layout */}
+      {/* Hero Banner Section - Enhanced Modern Design */}
       <section 
-        className="relative min-h-screen w-full overflow-hidden"
-        style={{
-          background: "linear-gradient(135deg, #ffffff 0%, #f8fafc 25%, #f1f5f9 50%, #e0e7ff 75%, #f0f9ff 100%)"
-        }}
+        className="relative min-h-screen w-full overflow-hidden bg-base-100"
+        style={
+          theme === "light"
+            ? {
+                background: "linear-gradient(135deg, #ffffff 0%, #f8fafc 15%, #f1f5f9 30%, #e0e7ff 50%, #c7d2fe 70%, #a5b4fc 85%, #f0f9ff 100%)"
+              }
+            : {
+                background: "linear-gradient(135deg, #000000 0%, #0a0a1a 50%, #000000 100%)"
+              }
+        }
       >
-        {/* Decorative Background Elements */}
+        {/* Enhanced Animated Background Elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {/* Subtle circles */}
-          <div className="absolute top-20 right-20 w-96 h-96 bg-blue-100/20 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-20 left-20 w-96 h-96 bg-indigo-100/20 rounded-full blur-3xl"></div>
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-50/30 rounded-full blur-3xl"></div>
+          {theme === "light" ? (
+            <>
+              {/* Animated gradient orbs - Responsive sizes */}
+              <motion.div
+                className="absolute top-20 right-20 w-64 h-64 md:w-96 md:h-96 bg-blue-200/30 rounded-full blur-3xl"
+                animate={{
+                  scale: [1, 1.2, 1],
+                  x: [0, 30, 0],
+                  y: [0, -20, 0],
+                }}
+                transition={{
+                  duration: 20,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+              />
+              <motion.div
+                className="absolute bottom-20 left-20 w-64 h-64 md:w-96 md:h-96 bg-indigo-200/30 rounded-full blur-3xl"
+                animate={{
+                  scale: [1, 1.3, 1],
+                  x: [0, -30, 0],
+                  y: [0, 20, 0],
+                }}
+                transition={{
+                  duration: 25,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+              />
+              <motion.div
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] md:w-[600px] md:h-[600px] bg-purple-100/20 rounded-full blur-3xl"
+                animate={{
+                  scale: [1, 1.1, 1],
+                  rotate: [0, 180, 360],
+                }}
+                transition={{
+                  duration: 30,
+                  repeat: Infinity,
+                  ease: "linear",
+                }}
+              />
+              {/* Floating particles */}
+              {[...Array(6)].map((_, i) => (
+                <motion.div
+                  key={i}
+                  className="absolute w-2 h-2 bg-primary/20 rounded-full"
+                  style={{
+                    left: `${20 + i * 15}%`,
+                    top: `${30 + (i % 3) * 20}%`,
+                  }}
+                  animate={{
+                    y: [0, -30, 0],
+                    opacity: [0.3, 0.6, 0.3],
+                  }}
+                  transition={{
+                    duration: 3 + i,
+                    repeat: Infinity,
+                    delay: i * 0.5,
+                    ease: "easeInOut",
+                  }}
+                />
+              ))}
+              {/* Grid pattern overlay */}
+              <div 
+                className="absolute inset-0 opacity-[0.03]"
+                style={{
+                  backgroundImage: "linear-gradient(rgba(0,0,0,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px)",
+                  backgroundSize: "50px 50px",
+                }}
+              />
+            </>
+          ) : (
+            <>
+              {/* Dark theme animated elements - Responsive */}
+              <motion.div
+                className="absolute top-20 right-20 w-64 h-64 md:w-96 md:h-96 bg-blue-500/10 rounded-full blur-3xl"
+                animate={{
+                  scale: [1, 1.2, 1],
+                  x: [0, 30, 0],
+                }}
+                transition={{
+                  duration: 20,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+              />
+              <motion.div
+                className="absolute bottom-20 left-20 w-64 h-64 md:w-96 md:h-96 bg-indigo-500/10 rounded-full blur-3xl"
+                animate={{
+                  scale: [1, 1.3, 1],
+                  x: [0, -30, 0],
+                }}
+                transition={{
+                  duration: 25,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+              />
+            </>
+          )}
         </div>
         {loadingVehicles ? (
           <div className="min-h-screen w-full flex items-center justify-center relative z-10">
@@ -113,135 +260,335 @@ const Home = () => {
         ) : (
           <div className="container mx-auto px-4 py-12 lg:py-20 relative z-10">
             <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12 items-center min-h-[80vh]">
-              {/* Left Side - Content (60%) */}
+              {/* Left Side - Enhanced Content (60%) */}
               <div className="lg:col-span-3 flex flex-col justify-center space-y-6 lg:space-y-8">
+                {/* Badge */}
+                <motion.div
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 w-fit"
+                >
+                  <FaCheckCircle className="text-primary w-4 h-4" />
+                  <span className="text-sm font-semibold text-primary">Trusted by thousands</span>
+                </motion.div>
+
+                {/* Enhanced Heading with Gradient */}
                 <motion.h1
                   initial={{ opacity: 0, x: -30 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.6 }}
-                  className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight"
-                  style={{ color: "#070738" }}
+                  transition={{ duration: 0.7, ease: "easeOut" }}
+                  className="text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight"
                 >
-                  Rent a car from anywhere anytime
+                  <span 
+                    className="bg-clip-text text-transparent"
+                    style={
+                      theme === "light"
+                        ? {
+                            backgroundImage: "linear-gradient(135deg, #070738 0%, #1e3a8a 50%, #3b82f6 100%)",
+                            WebkitBackgroundClip: "text",
+                            WebkitTextFillColor: "transparent",
+                            filter: "drop-shadow(0 2px 4px rgba(7, 7, 56, 0.1))",
+                          }
+                        : {
+                            color: "hsl(var(--bc))",
+                            filter: "drop-shadow(0 2px 8px rgba(255, 255, 255, 0.1))",
+                          }
+                    }
+                  >
+                    Rent a car from
+                  </span>
+                  <br />
+                  <span 
+                    className="bg-clip-text text-transparent"
+                    style={
+                      theme === "light"
+                        ? {
+                            backgroundImage: "linear-gradient(135deg, #3b82f6 0%, #6366f1 50%, #8b5cf6 100%)",
+                            WebkitBackgroundClip: "text",
+                            WebkitTextFillColor: "transparent",
+                          }
+                        : {
+                            color: "hsl(var(--bc))",
+                          }
+                    }
+                  >
+                    anywhere anytime
+                  </span>
                 </motion.h1>
 
+                {/* Enhanced Description */}
                 <motion.p
                   initial={{ opacity: 0, x: -30 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.6, delay: 0.2 }}
-                  className="text-lg md:text-xl text-gray-600 leading-relaxed max-w-2xl"
+                  transition={{ duration: 0.7, delay: 0.2 }}
+                  className="text-lg md:text-xl text-base-content/80 leading-relaxed max-w-2xl font-medium"
                 >
                   Your trusted partner for vehicle rentals and trip management. Find the perfect vehicle for your next adventure with ease and convenience.
                 </motion.p>
 
+                {/* Trust Indicators / Stats */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.4 }}
-                  className="pt-4"
+                  transition={{ duration: 0.7, delay: 0.3 }}
+                  className="flex flex-wrap gap-4 md:gap-6 pt-2 mb-12"
+                >
+                  <div className="flex items-center gap-2">
+                    <div className="p-2 rounded-lg bg-primary/10">
+                      <FaCar className="text-primary w-5 h-5" />
+                    </div>
+                    <div>
+                      <div className="text-2xl font-bold text-base-content">
+                        {allVehicles?.length || 0}+
+                      </div>
+                      <div className="text-sm text-base-content/60">Vehicles</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="p-2 rounded-lg bg-primary/10">
+                      <FaUsers className="text-primary w-5 h-5" />
+                    </div>
+                    <div>
+                      <div className="text-2xl font-bold text-base-content">10K+</div>
+                      <div className="text-sm text-base-content/60">Users</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="p-2 rounded-lg bg-primary/10">
+                      <FaStar className="text-primary w-5 h-5" />
+                    </div>
+                    <div>
+                      <div className="text-2xl font-bold text-base-content">4.8</div>
+                      <div className="text-sm text-base-content/60">Rating</div>
+                    </div>
+                  </div>
+                </motion.div>
+
+                {/* Enhanced CTA Buttons */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.7, delay: 0.4 }}
+                  className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4"
                 >
                   <Link
                     to="/allVehicles"
-                    className="inline-block px-4 py-2 text-white font-semibold text-lg rounded-lg shadow-lg hover:shadow-xl transition-all text-center transform hover:-translate-y-1"
-                    style={{ backgroundColor: "#070738", color: "#ffffff", padding: "1.25rem 2.5rem" }}
+                    className="group btn btn-primary btn-lg font-semibold shadow-xl hover:shadow-2xl transition-all transform hover:-translate-y-1 hover:scale-105 relative overflow-hidden w-full sm:w-auto text-center"
+                    style={{ padding: "1rem 2rem" }}
                   >
-                    All vehicles
+                    <span className="relative z-10">Explore All Vehicles</span>
+                    <motion.div
+                      className="absolute inset-0 bg-gradient-to-r from-primary to-primary/80"
+                      initial={{ x: "-100%" }}
+                      whileHover={{ x: 0 }}
+                      transition={{ duration: 0.3 }}
+                    />
+                  </Link>
+                  <Link
+                    to="/about"
+                    className="btn btn-outline btn-lg font-semibold border-2 hover:bg-base-200 transition-all transform hover:-translate-y-1 w-full sm:w-auto text-center"
+                    style={{ padding: "1rem 2rem" }}
+                  >
+                    Learn More
                   </Link>
                 </motion.div>
               </div>
 
-              {/* Right Side - Vehicle Showcase (40%) */}
+              {/* Right Side - Enhanced Vehicle Showcase (40%) */}
               <div className="lg:col-span-2 relative">
                 {sliderImages.length > 0 ? (
-                  <div className="relative">
-                    {/* Main Featured Image */}
-                    <div className="relative rounded-2xl overflow-hidden shadow-2xl">
-                      <AnimatePresence mode="wait" custom={direction}>
-                        <motion.div
-                          key={currentSlide}
-                          custom={direction}
-                          initial={{ opacity: 0, scale: 0.95 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          exit={{ opacity: 0, scale: 0.95 }}
-                          transition={{ duration: 0.5 }}
-                          className="relative"
-                        >
-                          <img
-                            src={sliderImages[currentSlide]}
-                            alt={`Vehicle ${currentSlide + 1}`}
-                            className="w-full h-[400px] md:h-[500px] lg:h-[600px] object-cover"
-                            loading="lazy"
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
-                        </motion.div>
-                      </AnimatePresence>
+                  <motion.div
+                    initial={{ opacity: 0, x: 30 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.8, delay: 0.2 }}
+                    className="relative"
+                  >
+                    {/* Glassmorphism Container */}
+                    <div 
+                      className="relative rounded-3xl overflow-hidden shadow-2xl backdrop-blur-sm"
+                      style={{
+                        background: theme === "light"
+                          ? "rgba(255, 255, 255, 0.1)"
+                          : "rgba(0, 0, 0, 0.3)",
+                        border: theme === "light"
+                          ? "1px solid rgba(255, 255, 255, 0.2)"
+                          : "1px solid rgba(255, 255, 255, 0.1)",
+                        boxShadow: theme === "light"
+                          ? "0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.1)"
+                          : "0 25px 50px -12px rgba(0, 0, 0, 0.5)",
+                      }}
+                    >
+                      {/* Main Featured Image */}
+                      <div className="relative">
+                        <AnimatePresence mode="wait" custom={direction}>
+                          <motion.div
+                            key={currentSlide}
+                            custom={direction}
+                            initial={{ opacity: 0, x: direction > 0 ? 100 : -100, scale: 0.9 }}
+                            animate={{ opacity: 1, x: 0, scale: 1 }}
+                            exit={{ opacity: 0, x: direction > 0 ? -100 : 100, scale: 0.9 }}
+                            transition={{ duration: 0.6, ease: "easeInOut" }}
+                            className="relative"
+                          >
+                            <img
+                              src={sliderImages[currentSlide]}
+                              alt={`Vehicle ${currentSlide + 1}`}
+                              className="w-full h-[400px] md:h-[500px] lg:h-[600px] object-cover"
+                              loading="lazy"
+                            />
+                            {/* Enhanced Gradient Overlay */}
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent"></div>
+                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-black/20"></div>
+                          </motion.div>
+                        </AnimatePresence>
 
-                      {/* Navigation Arrows */}
-                      {sliderImages.length > 1 && (
-                        <>
-                          <button
-                            onClick={goToPrevious}
-                            className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-white/90 hover:bg-white text-gray-800 p-3 rounded-full transition-all shadow-lg"
-                            aria-label="Previous slide"
+                        {/* Progress Indicator */}
+                        {sliderImages.length > 1 && isAutoPlaying && (
+                          <div className="absolute top-0 left-0 right-0 h-1 bg-base-300/30 z-30">
+                            <motion.div
+                              className="h-full bg-primary"
+                              initial={{ width: 0 }}
+                              animate={{ width: `${slideProgress}%` }}
+                              transition={{ duration: 0.1, ease: "linear" }}
+                            />
+                          </div>
+                        )}
+
+                        {/* Enhanced Navigation Arrows - Responsive */}
+                        {sliderImages.length > 1 && (
+                          <>
+                            <motion.button
+                              onClick={goToPrevious}
+                              whileHover={{ scale: 1.1 }}
+                              whileTap={{ scale: 0.95 }}
+                              className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-20 p-3 md:p-4 rounded-full transition-all shadow-2xl backdrop-blur-md border"
+                              style={{
+                                background: theme === "light"
+                                  ? "rgba(255, 255, 255, 0.9)"
+                                  : "rgba(0, 0, 0, 0.7)",
+                                borderColor: theme === "light"
+                                  ? "rgba(0, 0, 0, 0.1)"
+                                  : "rgba(255, 255, 255, 0.2)",
+                              }}
+                              aria-label="Previous slide"
+                            >
+                              <FaChevronLeft className="w-4 h-4 md:w-5 md:h-5 text-base-content" />
+                            </motion.button>
+                            <motion.button
+                              onClick={goToNext}
+                              whileHover={{ scale: 1.1 }}
+                              whileTap={{ scale: 0.95 }}
+                              className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-20 p-3 md:p-4 rounded-full transition-all shadow-2xl backdrop-blur-md border"
+                              style={{
+                                background: theme === "light"
+                                  ? "rgba(255, 255, 255, 0.9)"
+                                  : "rgba(0, 0, 0, 0.7)",
+                                borderColor: theme === "light"
+                                  ? "rgba(0, 0, 0, 0.1)"
+                                  : "rgba(255, 255, 255, 0.2)",
+                              }}
+                              aria-label="Next slide"
+                            >
+                              <FaChevronRight className="w-4 h-4 md:w-5 md:h-5 text-base-content" />
+                            </motion.button>
+                          </>
+                        )}
+
+                        {/* Slide Counter - Responsive */}
+                        {sliderImages.length > 1 && (
+                          <div 
+                            className="absolute bottom-3 md:bottom-4 right-3 md:right-4 px-3 md:px-4 py-1.5 md:py-2 rounded-full backdrop-blur-md text-xs md:text-sm font-semibold z-20"
+                            style={{
+                              background: theme === "light"
+                                ? "rgba(255, 255, 255, 0.9)"
+                                : "rgba(0, 0, 0, 0.7)",
+                              border: theme === "light"
+                                ? "1px solid rgba(0, 0, 0, 0.1)"
+                                : "1px solid rgba(255, 255, 255, 0.2)",
+                            }}
                           >
-                            <FaChevronLeft className="w-5 h-5" />
-                          </button>
-                          <button
-                            onClick={goToNext}
-                            className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-white/90 hover:bg-white text-gray-800 p-3 rounded-full transition-all shadow-lg"
-                            aria-label="Next slide"
-                          >
-                            <FaChevronRight className="w-5 h-5" />
-                          </button>
-                        </>
-                      )}
+                            {currentSlide + 1} / {sliderImages.length}
+                          </div>
+                        )}
+                      </div>
                     </div>
 
-                    {/* Thumbnail Grid Below */}
+                    {/* Enhanced Thumbnail Grid Below */}
                     {sliderImages.length > 1 && sliderImages.length <= 4 && (
-                      <div className="grid grid-cols-4 gap-3 mt-4">
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.5 }}
+                        className="grid grid-cols-4 gap-3 mt-6"
+                      >
                         {sliderImages.slice(0, 4).map((image, index) => (
-                          <button
+                          <motion.button
                             key={index}
                             onClick={() => goToSlide(index)}
-                            className={`relative rounded-lg overflow-hidden border-2 transition-all ${
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            className={`relative rounded-xl overflow-hidden border-2 transition-all backdrop-blur-sm ${
                               index === currentSlide
-                                ? "border-blue-600 scale-105 shadow-lg"
-                                : "border-gray-200 hover:border-gray-300 opacity-70 hover:opacity-100"
+                                ? "border-primary scale-105 shadow-xl ring-2 ring-primary/50"
+                                : "border-base-300/50 hover:border-primary/50 opacity-70 hover:opacity-100"
                             }`}
                           >
                             <img
                               src={image}
                               alt={`Thumbnail ${index + 1}`}
-                              className="w-full h-20 object-cover"
+                              className="w-full h-24 object-cover"
                             />
-                          </button>
+                            {index === currentSlide && (
+                              <motion.div
+                                className="absolute inset-0 bg-primary/20"
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                              />
+                            )}
+                          </motion.button>
                         ))}
-                      </div>
+                      </motion.div>
                     )}
 
-                    {/* Dot Indicators for more images */}
+                    {/* Enhanced Dot Indicators for more images */}
                     {sliderImages.length > 4 && (
-                      <div className="flex justify-center gap-2 mt-4">
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.5 }}
+                        className="flex justify-center gap-2 mt-6"
+                      >
                         {sliderImages.map((_, index) => (
-                          <button
+                          <motion.button
                             key={index}
                             onClick={() => goToSlide(index)}
-                            className={`h-2 rounded-full transition-all ${
+                            whileHover={{ scale: 1.2 }}
+                            whileTap={{ scale: 0.9 }}
+                            className={`h-2.5 rounded-full transition-all ${
                               index === currentSlide
-                                ? "bg-blue-600 w-8"
-                                : "bg-gray-300 hover:bg-gray-400 w-2"
+                                ? "bg-primary w-10 shadow-lg shadow-primary/50"
+                                : "bg-base-300 hover:bg-primary/50 w-2.5"
                             }`}
-                            style={index === currentSlide ? { backgroundColor: "#070738" } : {}}
                             aria-label={`Go to slide ${index + 1}`}
                           />
                         ))}
-                      </div>
+                      </motion.div>
                     )}
-                  </div>
+                  </motion.div>
                 ) : (
-                  <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-gray-200 h-[400px] md:h-[500px] lg:h-[600px] flex items-center justify-center">
-                    <p className="text-gray-400">No vehicles available</p>
+                  <div 
+                    className="relative rounded-3xl overflow-hidden shadow-2xl h-[400px] md:h-[500px] lg:h-[600px] flex items-center justify-center backdrop-blur-sm"
+                    style={{
+                      background: theme === "light"
+                        ? "rgba(255, 255, 255, 0.1)"
+                        : "rgba(0, 0, 0, 0.3)",
+                      border: theme === "light"
+                        ? "1px solid rgba(255, 255, 255, 0.2)"
+                        : "1px solid rgba(255, 255, 255, 0.1)",
+                    }}
+                  >
+                    <p className="text-base-content/60 text-lg">No vehicles available</p>
                   </div>
                 )}
               </div>
@@ -343,14 +690,11 @@ const Home = () => {
       {/* Top Categories Section */}
       <section className="py-20 px-4 bg-base-200/50">
         <div className="container mx-auto">
-          <animated.div style={fadeIn}>
-            <div className="mb-16">
-              <h2 className="text-4xl md:text-5xl font-bold mb-4 text-center">Top Categories</h2>
-              <p className="text-lg text-base-content/70 max-w-2xl mx-auto text-center">
-                Explore our diverse range of vehicle categories
-              </p>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <animated.div style={fadeIn}>
+              <div className="mb-16 text-center">
+                <h2 className="text-4xl md:text-5xl font-bold mb-4">Top Categories</h2>
+              </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 pt-12">
               {categories.map((category, index) => (
                 <Link
                   key={category.name}
@@ -440,29 +784,10 @@ const Home = () => {
           </div>
         </section>
       )}
-
-      {/* About TravelGuru Section */}
-      <section className="py-20 px-4 bg-base-200/50">
-        <div className="container mx-auto">
-          <animated.div style={fadeIn} className="max-w-4xl mx-auto text-center">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">About TravelGuru</h2>
-            <div className="space-y-6 text-lg text-base-content/80 leading-relaxed">
-              <p>
-                TravelGuru is a comprehensive vehicle booking and trip management platform designed to make your travel experience seamless and enjoyable. Whether you're planning a weekend getaway, a business trip, or a family vacation, we've got the perfect vehicle for you.
-              </p>
-              <p>
-                Our platform connects vehicle owners with travelers, offering a wide range of vehicles from economy sedans to luxury SUVs. With our easy-to-use interface, secure booking system, and 24/7 customer support, TravelGuru ensures that your journey starts smoothly.
-              </p>
-              <p>
-                Join thousands of satisfied customers who trust TravelGuru for their transportation needs. Start your adventure today!
-              </p>
-            </div>
-          </animated.div>
-        </div>
-      </section>
     </div>
   );
 };
 
 export default Home;
+
 

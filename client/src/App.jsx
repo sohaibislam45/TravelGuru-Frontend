@@ -3,6 +3,7 @@ import { Toaster } from "react-hot-toast";
 import Layout from "./components/Layout";
 import PrivateRoute from "./components/PrivateRoute";
 import Home from "./pages/Home";
+import About from "./pages/About";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import AllVehicles from "./pages/AllVehicles";
@@ -20,6 +21,7 @@ function App() {
         <Layout>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/allVehicles" element={<AllVehicles />} />
