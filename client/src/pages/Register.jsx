@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { FaGoogle } from "react-icons/fa";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import toast from "react-hot-toast";
 
 const Register = () => {
@@ -14,6 +15,8 @@ const Register = () => {
   });
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const { register, googleSignIn } = useAuth();
   const navigate = useNavigate();
 
@@ -136,7 +139,9 @@ const Register = () => {
 
                 <div className="form-control">
                   <label htmlFor="email" className="label">
-                    <span className="label-text font-medium">Email address</span>
+                    <span className="label-text font-medium">
+                      Email address
+                    </span>
                   </label>
                   <input
                     id="email"
@@ -153,7 +158,9 @@ const Register = () => {
 
                 <div className="form-control">
                   <label htmlFor="photoURL" className="label">
-                    <span className="label-text font-medium">Photo URL (optional)</span>
+                    <span className="label-text font-medium">
+                      Photo URL (optional)
+                    </span>
                   </label>
                   <input
                     id="photoURL"
@@ -170,22 +177,36 @@ const Register = () => {
                   <label htmlFor="password" className="label">
                     <span className="label-text font-medium">Password</span>
                   </label>
-                  <input
-                    id="password"
-                    name="password"
-                    type="password"
-                    autoComplete="new-password"
-                    required
-                    className={`input input-bordered w-full ${
-                      errors.password ? "input-error" : ""
-                    }`}
-                    placeholder="Password"
-                    value={formData.password}
-                    onChange={handleChange}
-                  />
+                  <div className="relative">
+                    <input
+                      id="password"
+                      name="password"
+                      type={showPassword ? "text" : "password"}
+                      autoComplete="new-password"
+                      required
+                      className={`input input-bordered w-full pr-10 ${
+                        errors.password ? "input-error" : ""
+                      }`}
+                      placeholder="Password"
+                      value={formData.password}
+                      onChange={handleChange}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-base-content/60 hover:text-base-content transition-colors"
+                      tabIndex="-1"
+                    >
+                      {showPassword ? (
+                        <AiOutlineEyeInvisible className="w-5 h-5" />
+                      ) : (
+                        <AiOutlineEye className="w-5 h-5" />
+                      )}
+                    </button>
+                  </div>
                   {errors.password && (
                     <label className="label">
-                      <span className="label-text-alt text-error">
+                      <span className="label-text-alt text-red-500">
                         {Array.isArray(errors.password) ? (
                           <ul className="list-disc list-inside">
                             {errors.password.map((error, index) => (
@@ -202,24 +223,42 @@ const Register = () => {
 
                 <div className="form-control">
                   <label htmlFor="confirmPassword" className="label">
-                    <span className="label-text font-medium">Confirm Password</span>
+                    <span className="label-text font-medium">
+                      Confirm Password
+                    </span>
                   </label>
-                  <input
-                    id="confirmPassword"
-                    name="confirmPassword"
-                    type="password"
-                    autoComplete="new-password"
-                    required
-                    className={`input input-bordered w-full ${
-                      errors.confirmPassword ? "input-error" : ""
-                    }`}
-                    placeholder="Confirm password"
-                    value={formData.confirmPassword}
-                    onChange={handleChange}
-                  />
+                  <div className="relative">
+                    <input
+                      id="confirmPassword"
+                      name="confirmPassword"
+                      type={showConfirmPassword ? "text" : "password"}
+                      autoComplete="new-password"
+                      required
+                      className={`input input-bordered w-full pr-10 ${
+                        errors.confirmPassword ? "input-error" : ""
+                      }`}
+                      placeholder="Confirm password"
+                      value={formData.confirmPassword}
+                      onChange={handleChange}
+                    />
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setShowConfirmPassword(!showConfirmPassword)
+                      }
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-base-content/60 hover:text-base-content transition-colors"
+                      tabIndex="-1"
+                    >
+                      {showConfirmPassword ? (
+                        <AiOutlineEyeInvisible className="w-5 h-5" />
+                      ) : (
+                        <AiOutlineEye className="w-5 h-5" />
+                      )}
+                    </button>
+                  </div>
                   {errors.confirmPassword && (
                     <label className="label">
-                      <span className="label-text-alt text-error">
+                      <span className="label-text-alt text-red-500">
                         {errors.confirmPassword}
                       </span>
                     </label>
@@ -266,4 +305,3 @@ const Register = () => {
 };
 
 export default Register;
-

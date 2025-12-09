@@ -4,12 +4,12 @@ import { getAuth } from "firebase/auth";
 // Your web app's Firebase configuration
 // Replace these values with your actual Firebase config
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "your-api-key",
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "your-auth-domain",
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "your-project-id",
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "your-storage-bucket",
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "your-messaging-sender-id",
-  appId: import.meta.env.VITE_FIREBASE_APP_ID || "your-app-id"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "AIzaSyDhQgoOlomtVIF_56rUMonFqbDxmFlB0nw",
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "travelguru-7a9db.firebaseapp.com",
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "travelguru-7a9db",
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "travelguru-7a9db.firebasestorage.app",
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "639116008796",
+  appId: import.meta.env.VITE_FIREBASE_APP_ID || "1:639116008796:web:e27744031087d4dd3c3599"
 };
 
 // Initialize Firebase

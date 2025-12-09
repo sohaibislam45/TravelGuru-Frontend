@@ -22,12 +22,14 @@ const Navbar = () => {
   const isActive = (path) => pathname === path;
 
   return (
-    <div 
-      className="navbar sticky top-0 z-50 backdrop-blur-lg bg-base-100/90 border-b border-base-300/60 shadow-md"
-    >
+    <div className="navbar sticky top-0 z-50 backdrop-blur-lg bg-base-100/90 border-b border-base-300/60 shadow-md">
       <div className="navbar-start">
         <div className="dropdown">
-          <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden hover:bg-primary/10 transition-all">
+          <div
+            tabIndex={0}
+            role="button"
+            className="btn btn-ghost lg:hidden hover:bg-primary/10 transition-all"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5 text-base-content"
@@ -121,12 +123,14 @@ const Navbar = () => {
             </li>
           </ul>
         </div>
-        <Link 
-          to="/" 
+        <Link
+          to="/"
           className="btn btn-ghost text-xl hover:bg-transparent hover:scale-105 transition-all px-2 lg:px-4"
         >
           <FaCar className="w-7 h-7 mr-2 text-primary transition-colors" />
-          <span className="text-primary font-bold tracking-tight">TravelGuru</span>
+          <span className="text-primary font-bold tracking-tight">
+            TravelGuru
+          </span>
         </Link>
       </div>
       <div className="navbar-center hidden lg:flex">
@@ -233,17 +237,39 @@ const Navbar = () => {
                 data-tip={user.displayName || user.email || "User"}
               >
                 <div className="avatar">
-                  <div className="w-10 rounded-full ring ring-primary/50 ring-offset-base-100 ring-offset-2 transition-all hover:ring-primary hover:ring-offset-2">
+                  <div className="rounded-full w-12 h-12 ring ring-primary/50 ring-offset-base-100 ring-offset-2 overflow-hidden flex-shrink-0 bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
                     <img
+                      key={`${user.uid}-${user.photoURL || "no-photo"}`}
                       alt={user.displayName || "User"}
-                      src={user.photoURL || "https://ui-avatars.com/api/?name=User"}
-                      className="transition-transform hover:scale-105"
+                      src={
+                        user.photoURL && user.photoURL.trim() !== ""
+                          ? user.photoURL
+                          : `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                              user.displayName || user.email || "User"
+                            )}`
+                      }
+                      className="w-full h-full object-contain"
+                      loading="eager"
+                      referrerPolicy="no-referrer"
+                      onError={(e) => {
+                        // Only fallback if not already using fallback
+                        const currentSrc = e.target.src;
+                        const fallbackUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                          user.displayName || user.email || "User"
+                        )}`;
+                        if (
+                          !currentSrc.includes("ui-avatars.com") &&
+                          currentSrc !== fallbackUrl
+                        ) {
+                          e.target.src = fallbackUrl;
+                        }
+                      }}
                     />
                   </div>
                 </div>
               </div>
-              <button 
-                onClick={handleLogout} 
+              <button
+                onClick={handleLogout}
                 className="btn btn-ghost text-base-content hover:bg-base-200 hover:text-primary transition-all"
               >
                 LogOut
@@ -251,14 +277,14 @@ const Navbar = () => {
             </div>
           ) : (
             <div className="flex gap-2">
-              <Link 
-                to="/login" 
+              <Link
+                to="/login"
                 className="btn btn-ghost text-base-content hover:bg-base-200 hover:text-primary transition-all"
               >
                 Login
               </Link>
-              <Link 
-                to="/register" 
+              <Link
+                to="/register"
                 className="btn btn-primary text-primary-content hover:opacity-90 transition-all shadow-md hover:shadow-lg"
               >
                 Register
