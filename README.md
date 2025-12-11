@@ -1,16 +1,168 @@
-# React + Vite
+# TravelGuru - Vehicle Booking & Trip Management Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+TravelGuru is a comprehensive full-stack web application for vehicle rentals and trip management. Connect with vehicle owners, browse available vehicles, and manage your bookings all in one place.
 
-Currently, two official plugins are available:
+## Live Site
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+[Add your live site URL here after deployment]
 
-## React Compiler
+## Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **User Authentication**: Secure login and registration with Firebase Authentication, including Google Sign-In support
+- **Vehicle Management**: Browse all available vehicles with advanced filtering and sorting options
+- **Booking System**: Easy-to-use booking interface with date selection and booking history
+- **Vehicle CRUD Operations**: Add, update, and delete your own vehicles with a user-friendly interface
+- **Responsive Design**: Fully responsive design that works seamlessly on mobile, tablet, and desktop devices
+- **Dark/Light Theme**: Toggle between light and dark themes with persistent preference storage
+- **Real-time Updates**: Powered by React Query for efficient data fetching and caching
+- **Modern UI/UX**: Beautiful, modern interface built with TailwindCSS and DaisyUI
+- **Animations**: Smooth animations using Framer Motion and React Spring
+- **Top Rated Vehicles**: Discover the most popular vehicles based on booking statistics
 
-## Expanding the ESLint configuration
+## Tech Stack
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Frontend
+
+- **React 19** - Modern UI library
+- **Vite** - Fast build tool and dev server
+- **React Router 7** - Client-side routing
+- **TailwindCSS 4** - Utility-first CSS framework
+- **DaisyUI** - Component library for TailwindCSS
+- **Firebase Auth** - Authentication service
+- **TanStack Query (React Query)** - Data fetching and state management
+- **Axios** - HTTP client
+- **Framer Motion** - Animation library
+- **React Spring** - Spring physics animations
+- **date-fns** - Date utility library
+- **react-hot-toast** - Toast notifications
+- **react-icons** - Icon library
+
+### Backend
+
+- **Express 5** - Web framework for Node.js
+- **MongoDB 7** - NoSQL database
+- **CORS** - Cross-origin resource sharing
+
+## Setup Instructions
+
+### Prerequisites
+
+- Node.js (v18 or higher)
+- npm or yarn
+- MongoDB Atlas account (or local MongoDB instance)
+- Firebase project
+
+### Installation
+
+1. **Clone the repository**
+
+   ```bash
+   git clone [repository-url]
+   cd TravelGuru
+   ```
+
+2. **Install client dependencies**
+
+   ```bash
+   cd client
+   npm install
+   ```
+
+3. **Install server dependencies**
+
+   ```bash
+   cd ../server
+   npm install
+   ```
+
+4. **Configure Firebase**
+
+   - Create a Firebase project at [Firebase Console](https://console.firebase.google.com/)
+   - Enable Email/Password and Google authentication
+   - Copy your Firebase config
+   - Create a `.env` file in the `client` directory:
+     ```env
+     VITE_FIREBASE_API_KEY=your-api-key
+     VITE_FIREBASE_AUTH_DOMAIN=your-auth-domain
+     VITE_FIREBASE_PROJECT_ID=your-project-id
+     VITE_FIREBASE_STORAGE_BUCKET=your-storage-bucket
+     VITE_FIREBASE_MESSAGING_SENDER_ID=your-messaging-sender-id
+     VITE_FIREBASE_APP_ID=your-app-id
+     VITE_API_URL=https://travelguru-server-rust.vercel.app
+     ```
+
+5. **Configure MongoDB**
+
+   - Update the MongoDB connection string in `server/index.js`
+   - Or set it as an environment variable
+
+6. **Run the development server**
+
+   ```bash
+   # Terminal 1 - Start backend server
+   cd server
+   npm start
+
+   # Terminal 2 - Start frontend dev server
+   cd client
+   npm run dev
+   ```
+
+7. **Open your browser**
+   - Frontend: `http://localhost:5173` (or the port shown in terminal)
+   - Backend: `https://travelguru-server-rust.vercel.app`
+
+## Project Structure
+
+```
+TravelGuru/
+├── client/
+│   ├── src/
+│   │   ├── components/      # Reusable components
+│   │   ├── contexts/        # React contexts (Auth)
+│   │   ├── firebase/        # Firebase configuration
+│   │   ├── pages/           # Page components
+│   │   ├── services/        # API service functions
+│   │   ├── App.jsx          # Main app component with routes
+│   │   └── main.jsx         # Entry point
+│   └── package.json
+├── server/
+│   ├── index.js             # Express server and API routes
+│   └── package.json
+└── README.md
+```
+
+## API Endpoints
+
+### Vehicles
+
+- `GET /vehicles` - Get all vehicles (with optional query params for filtering/sorting)
+- `GET /vehicles/:id` - Get single vehicle
+- `GET /vehicles/latest` - Get latest 6 vehicles
+- `GET /vehicles/top-rated` - Get top 3 most booked vehicles
+- `POST /vehicles` - Add new vehicle
+- `PUT /vehicles/:id` - Update vehicle
+- `DELETE /vehicles/:id` - Delete vehicle
+
+### Bookings
+
+- `POST /bookings` - Create booking
+- `GET /bookings` - Get bookings (filtered by userEmail query param)
+
+## Usage
+
+1. **Register/Login**: Create an account or sign in with Google
+2. **Browse Vehicles**: View all available vehicles on the home page or all vehicles page
+3. **Filter & Sort**: Use filters and sorting options to find the perfect vehicle
+4. **View Details**: Click on any vehicle to see detailed information
+5. **Book Vehicle**: Select a date and book your preferred vehicle
+6. **Manage Vehicles**: Add, update, or delete your own vehicles
+7. **View Bookings**: Check your booking history in the My Bookings page
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is open source and available under the MIT License.
