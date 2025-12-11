@@ -22,6 +22,7 @@ TravelGuru is a comprehensive full-stack web application for vehicle rentals and
 ## Tech Stack
 
 ### Frontend
+
 - **React 19** - Modern UI library
 - **Vite** - Fast build tool and dev server
 - **React Router 7** - Client-side routing
@@ -37,6 +38,7 @@ TravelGuru is a comprehensive full-stack web application for vehicle rentals and
 - **react-icons** - Icon library
 
 ### Backend
+
 - **Express 5** - Web framework for Node.js
 - **MongoDB 7** - NoSQL database
 - **CORS** - Cross-origin resource sharing
@@ -44,6 +46,7 @@ TravelGuru is a comprehensive full-stack web application for vehicle rentals and
 ## Setup Instructions
 
 ### Prerequisites
+
 - Node.js (v18 or higher)
 - npm or yarn
 - MongoDB Atlas account (or local MongoDB instance)
@@ -52,24 +55,28 @@ TravelGuru is a comprehensive full-stack web application for vehicle rentals and
 ### Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone [repository-url]
    cd TravelGuru
    ```
 
 2. **Install client dependencies**
+
    ```bash
    cd client
    npm install
    ```
 
 3. **Install server dependencies**
+
    ```bash
    cd ../server
    npm install
    ```
 
 4. **Configure Firebase**
+
    - Create a Firebase project at [Firebase Console](https://console.firebase.google.com/)
    - Enable Email/Password and Google authentication
    - Copy your Firebase config
@@ -81,14 +88,16 @@ TravelGuru is a comprehensive full-stack web application for vehicle rentals and
      VITE_FIREBASE_STORAGE_BUCKET=your-storage-bucket
      VITE_FIREBASE_MESSAGING_SENDER_ID=your-messaging-sender-id
      VITE_FIREBASE_APP_ID=your-app-id
-     VITE_API_URL=http://localhost:3000
+     VITE_API_URL=https://travelguru-server-rust.vercel.app
      ```
 
 5. **Configure MongoDB**
+
    - Update the MongoDB connection string in `server/index.js`
    - Or set it as an environment variable
 
 6. **Run the development server**
+
    ```bash
    # Terminal 1 - Start backend server
    cd server
@@ -101,7 +110,7 @@ TravelGuru is a comprehensive full-stack web application for vehicle rentals and
 
 7. **Open your browser**
    - Frontend: `http://localhost:5173` (or the port shown in terminal)
-   - Backend: `http://localhost:3000`
+   - Backend: `https://travelguru-server-rust.vercel.app`
 
 ## Project Structure
 
@@ -126,6 +135,7 @@ TravelGuru/
 ## API Endpoints
 
 ### Vehicles
+
 - `GET /vehicles` - Get all vehicles (with optional query params for filtering/sorting)
 - `GET /vehicles/:id` - Get single vehicle
 - `GET /vehicles/latest` - Get latest 6 vehicles
@@ -135,6 +145,7 @@ TravelGuru/
 - `DELETE /vehicles/:id` - Delete vehicle
 
 ### Bookings
+
 - `POST /bookings` - Create booking
 - `GET /bookings` - Get bookings (filtered by userEmail query param)
 
