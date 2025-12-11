@@ -4,7 +4,7 @@ TravelGuru is a comprehensive full-stack web application for vehicle rentals and
 
 ## Live Site
 
-[Add your live site URL here after deployment]
+https://ubiquitous-blini-5bc719.netlify.app/
 
 ## Features
 
@@ -77,19 +77,10 @@ TravelGuru is a comprehensive full-stack web application for vehicle rentals and
 
 4. **Configure Firebase**
 
-   - Create a Firebase project at [Firebase Console](https://console.firebase.google.com/)
+   - Create a Firebase project at [Firebase Console]
    - Enable Email/Password and Google authentication
    - Copy your Firebase config
    - Create a `.env` file in the `client` directory:
-     ```env
-     VITE_FIREBASE_API_KEY=your-api-key
-     VITE_FIREBASE_AUTH_DOMAIN=your-auth-domain
-     VITE_FIREBASE_PROJECT_ID=your-project-id
-     VITE_FIREBASE_STORAGE_BUCKET=your-storage-bucket
-     VITE_FIREBASE_MESSAGING_SENDER_ID=your-messaging-sender-id
-     VITE_FIREBASE_APP_ID=your-app-id
-     VITE_API_URL=https://travelguru-server-rust.vercel.app
-     ```
 
 5. **Configure MongoDB**
 
@@ -109,7 +100,7 @@ TravelGuru is a comprehensive full-stack web application for vehicle rentals and
    ```
 
 7. **Open your browser**
-   - Frontend: `http://localhost:5173` (or the port shown in terminal)
+   - Frontend: https://ubiquitous-blini-5bc719.netlify.app/
    - Backend: `https://travelguru-server-rust.vercel.app`
 
 ## Project Structure
